@@ -143,7 +143,57 @@ def main():
 # =============================================================================
 # PUNTO DE ENTRADA
 # =============================================================================
+def probar_acceso_diccionario():
+    declaracion = {"nit": "800234567-0", "estado": "Pendiente"}
+    print(declaracion["valor_declarado"])
+
+#Recorrer todos los pares con .items() e imprimir cada campo en una línea.
+#Cambiar "estado" a "Revisada" e imprimir solo ese campo para confirmar el cambio.
+def revisar_declaracion(declaracion):    
+    for clave, valor in declaracion.items():
+        print(clave, ":", valor)
+    declaracion["estado"] = "Revisada"
+    print(declaracion["estado"])
+
+def probar_acceso_serie():
+    serie = pd.Series([100, 200, 300])
+    print(serie[5])
+
+# Escribe una función explorar_dataframe() que construya un DataFrame con datos de cuatro contribuyentes, cada fila con los campos nit, razon_social, municipio y valor_declarado, e imprima .index, .columns y .shape
+def explorar_dataframe():
+    datos = {
+    "nit": ["900123456-1", "800234567-0", "700345678-9","800333444-5"],
+    "razon_social": ["Bancolombia", "Davivienda", "BBVA", "Banco Occidente"],
+    "municipio": ["Huila", "Bogotá", "Cali", "Medellín"],
+    "valor_declarado": [4_500_000, 12_300_000, 2_100_000, 8_750_000],    
+    }
+    df = pd.DataFrame(datos)
+    print(df.shape)   
+    print(df.index)    
+    print(df.columns) 
+
+#  Escribe una función analizar_serie(nits, valores) que reciba una lista de NITs y una lista de valores declarados, construya una Serie usando los NITs como índice, e imprima la media, el máximo, el mínimo y el NIT con el valor más alto usando las funciones que la liberería tiene definidas
+def analizar_serie(nits, valores):
+    serie = pd.Series(valores, index=nits)
+    print("Media:", serie.mean())
+    print("Mínimo:", serie.max())
+    print("Máximo:", serie.min())
+    print("NIT con mayor valor:", serie.idxmax())
 
 if __name__ == "__main__":
-    main()
+     #probar_acceso_diccionario()
+    declaracion = {
+    "nit": "900123456-1",
+    "razon_social": "Comercializadora Andina S.A.S",
+    "valor_declarado": 4_500_000,
+    "estado": "Presentada",
+    "municipio": "Bogotá",
+    }   
+    #revisar_declaracion(declaracion)
+    #probar_acceso_serie()
+    explorar_dataframe()
+    nits   = ["900111222-0", "800333444-5", "700555666-1", "600777888-2", "500999000-3"]
+    valores = [4_500_000, 12_300_000, 2_100_000, 8_750_000, 15_200_000]
+    #analizar_serie(nits, valores)
+    #main()
 
