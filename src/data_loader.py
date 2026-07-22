@@ -28,8 +28,9 @@ def cargar_declaraciones(ruta, columnas=None):
     # Si se recibe una lista en `columnas`, úsala
     # Si `columnas` es None, carga todas las columnas.
     # Retorna el DataFrame cargado.
-    pass
-
+    df_datos = pd.read_csv(ruta)
+    print(df_datos)
+    return df_datos
 
 def inspeccionar_datos(df):
     """
@@ -44,9 +45,20 @@ def inspeccionar_datos(df):
     Returns:
         None
     """
-    pass
+    print("Dimensiones:",df.shape)
+    print("Tipos de dato:",df.dtypes)
+    print("Nulos por columna:",df.isnull().sum())
+    print("Total de celdas vacías:",df.isnull().sum().sum())
+    print("Filas duplicadas",df.duplicated().sum())
 
-
+    print("\n===EJERCICIO INTERMEDIO===")
+    for col in df.select_dtypes(include="object").columns:
+        print(f"{col}: {df[col].nunique()} valores únicos")
+        if df[col].nunique()<20:
+            print(df[col].value_counts())
+        else:
+            print(df[col].nunique())
+            
 def validar_nulos(df, columnas_criticas):
     """
     Revisa que las columnas críticas no tengan valores faltantes.
@@ -67,8 +79,12 @@ def validar_nulos(df, columnas_criticas):
     # TODO: Recorre columnas_criticas con un ciclo for.
     # Para cada columna, calcula si hay algún valor faltante y si lo hay imprime el nombre de la columna 
     # y la cantidad de nulos encontrados.
-    pass
-
+    for col in columnas_criticas:
+        valor_faltante= df[col].isnull().sum()
+        if valor_faltante>0:
+            print(f"{col}: {valor_faltante} nulos")
+        else:
+            print(f"{col}: sin nulos")
 
 # =============================================================================
 # BLOQUE DE PRUEBA

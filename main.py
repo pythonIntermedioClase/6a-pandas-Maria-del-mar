@@ -15,10 +15,10 @@ import pandas as pd
 from datetime import date
 
 # Sección 3:
-# from src.data_loader import cargar_declaraciones
+from src.data_loader import cargar_declaraciones
 #
 # Sección 4 — agrega las dos funciones nuevas al import de data_loader:
-# from src.data_loader import cargar_declaraciones, inspeccionar_datos, validar_nulos
+from src.data_loader import cargar_declaraciones, inspeccionar_datos, validar_nulos
 #
 # Sección 5:
 # from src.data_transformer import clasificar_por_valor, agregar_identificador_periodo, preparar_columnas_salida
@@ -180,6 +180,11 @@ def analizar_serie(nits, valores):
     print("Máximo:", serie.min())
     print("NIT con mayor valor:", serie.idxmax())
 
+#def probar_atributo_shape():
+    #df = pd.read_csv("data/inputs/declaraciones_iva_2025.csv")
+    #print(df.shape())
+#probar_atributo_shape()
+
 if __name__ == "__main__":
      #probar_acceso_diccionario()
     declaracion = {
@@ -191,9 +196,15 @@ if __name__ == "__main__":
     }   
     #revisar_declaracion(declaracion)
     #probar_acceso_serie()
-    explorar_dataframe()
+    #explorar_dataframe()
     nits   = ["900111222-0", "800333444-5", "700555666-1", "600777888-2", "500999000-3"]
     valores = [4_500_000, 12_300_000, 2_100_000, 8_750_000, 15_200_000]
     #analizar_serie(nits, valores)
+    #cargar_declaraciones("data/input/declaraciones_iva_2025.csv")
+
+    df = cargar_declaraciones("data/inputs/declaraciones_iva_2025.csv")
+    inspeccionar_datos(df)
+    validar_nulos(df, ["nit", "valor_declarado", "estado"])
+
     #main()
 
