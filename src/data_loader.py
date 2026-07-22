@@ -52,12 +52,12 @@ def inspeccionar_datos(df):
     print("Filas duplicadas",df.duplicated().sum())
 
     print("\n===EJERCICIO INTERMEDIO===")
-    for col in df.select_dtypes(include="object").columns:
-        print(f"{col}: {df[col].nunique()} valores únicos")
-        if df[col].nunique()<20:
-            print(df[col].value_counts())
-        else:
-            print(df[col].nunique())
+    for col in df.columns:
+        if df[col].dtype == object:
+            if df[col].nunique()<20:
+                print(df[col].value_counts())
+            else:
+                print(df[col].nunique())
             
 def validar_nulos(df, columnas_criticas):
     """
