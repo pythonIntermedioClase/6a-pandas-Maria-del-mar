@@ -21,7 +21,7 @@ from src.data_loader import cargar_declaraciones
 from src.data_loader import cargar_declaraciones, inspeccionar_datos, validar_nulos
 #
 # Sección 5:
-# from src.data_transformer import clasificar_por_valor, agregar_identificador_periodo, preparar_columnas_salida
+from src.data_transformer import clasificar_por_valor, agregar_identificador_periodo, preparar_columnas_salida
 #
 # Sección 6:
 # from src.data_exporter import exportar_csv, exportar_excel_por_categoria
@@ -185,6 +185,11 @@ def analizar_serie(nits, valores):
     #print(df.shape())
 #probar_atributo_shape()
 
+#def probar_np_where():
+    #df = pd.read_csv("data/inputs/declaraciones_iva_2025.csv")
+    #df["categoria"] = np.where(df["valor_declarado"] >= 5_000_000, "Alto", "Bajo", "Medio")
+#probar_np_where()
+
 if __name__ == "__main__":
      #probar_acceso_diccionario()
     declaracion = {
@@ -202,9 +207,27 @@ if __name__ == "__main__":
     #analizar_serie(nits, valores)
     #cargar_declaraciones("data/input/declaraciones_iva_2025.csv")
 
-    df = cargar_declaraciones("data/inputs/declaraciones_iva_2025.csv")
-    inspeccionar_datos(df)
-    validar_nulos(df, ["nit", "valor_declarado", "estado"])
+    #df = cargar_declaraciones("data/inputs/declaraciones_iva_2025.csv")
+    #inspeccionar_datos(df)
+    #validar_nulos(df, ["nit", "valor_declarado", "estado"])
+
+    df = pd.read_csv(
+        "data/inputs/declaraciones_iva_2025.csv",
+        dtype={"nit": str, "codigo_municipio": str},
+    )
+    df = clasificar_por_valor(df, umbral_alto=10_000_000, umbral_medio=5_000_000)
+    print(df[["nit", "valor_declarado", "nivel_riesgo"]].head(10))
+    print(df["nivel_riesgo"].value_counts())
+
+    df = agregar_identificador_periodo(df)
+    columnas = [
+        "identificador_periodo", "nit", "razon_social",
+        "municipio", "periodo", "valor_declarado", "nivel_riesgo", "estado",
+    ]
+    
+    df_salida = preparar_columnas_salida(df, columnas)
+    print(df_salida.head())
+    print(df["nivel_riesgo"].value_counts())
 
     #main()
 
